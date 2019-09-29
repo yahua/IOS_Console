@@ -91,7 +91,11 @@ Pod::Spec.new do |s|
   #  Not including the public_header_files will make all headers public.
   #
 
-  s.source_files  = "Console"
+  s.source_files = 'YAHConsole/Classes/**/*'
+  s.resource_bundles = {
+    'YAHConsole' => ['YAHConsole/Assets/*']
+  }
+
   s.dependency "fishhook"
 
 end

@@ -15,14 +15,6 @@
 		2CA826A32340A48300E0B1D4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2CA826A22340A48300E0B1D4 /* Assets.xcassets */; };
 		2CA826A62340A48300E0B1D4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2CA826A42340A48300E0B1D4 /* LaunchScreen.storyboard */; };
 		2CA826A92340A48300E0B1D4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA826A82340A48300E0B1D4 /* main.m */; };
-		2CA826BD2340A4D300E0B1D4 /* LDPConsoleManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA826B12340A4D300E0B1D4 /* LDPConsoleManager.m */; };
-		2CA826BE2340A4D300E0B1D4 /* LDPConsoleHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA826B22340A4D300E0B1D4 /* LDPConsoleHistoryViewController.m */; };
-		2CA826BF2340A4D300E0B1D4 /* LDPConsoleHistoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2CA826B32340A4D300E0B1D4 /* LDPConsoleHistoryViewController.xib */; };
-		2CA826C02340A4D300E0B1D4 /* LDPConsleDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2CA826B42340A4D300E0B1D4 /* LDPConsleDetailViewController.xib */; };
-		2CA826C12340A4D300E0B1D4 /* LDPConsoleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA826B52340A4D300E0B1D4 /* LDPConsoleModel.m */; };
-		2CA826C22340A4D300E0B1D4 /* LDPConsleDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA826B62340A4D300E0B1D4 /* LDPConsleDetailViewController.m */; };
-		2CA826C32340A4D300E0B1D4 /* LDPConsoleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA826B72340A4D300E0B1D4 /* LDPConsoleViewController.m */; };
-		2CA826C42340A4D300E0B1D4 /* LDPConsoleViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2CA826B82340A4D300E0B1D4 /* LDPConsoleViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,19 +30,6 @@
 		2CA826A52340A48300E0B1D4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2CA826A72340A48300E0B1D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2CA826A82340A48300E0B1D4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		2CA826B02340A4D300E0B1D4 /* LDPConsoleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDPConsoleViewController.h; sourceTree = "<group>"; };
-		2CA826B12340A4D300E0B1D4 /* LDPConsoleManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDPConsoleManager.m; sourceTree = "<group>"; };
-		2CA826B22340A4D300E0B1D4 /* LDPConsoleHistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDPConsoleHistoryViewController.m; sourceTree = "<group>"; };
-		2CA826B32340A4D300E0B1D4 /* LDPConsoleHistoryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LDPConsoleHistoryViewController.xib; sourceTree = "<group>"; };
-		2CA826B42340A4D300E0B1D4 /* LDPConsleDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LDPConsleDetailViewController.xib; sourceTree = "<group>"; };
-		2CA826B52340A4D300E0B1D4 /* LDPConsoleModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDPConsoleModel.m; sourceTree = "<group>"; };
-		2CA826B62340A4D300E0B1D4 /* LDPConsleDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDPConsleDetailViewController.m; sourceTree = "<group>"; };
-		2CA826B72340A4D300E0B1D4 /* LDPConsoleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDPConsoleViewController.m; sourceTree = "<group>"; };
-		2CA826B82340A4D300E0B1D4 /* LDPConsoleViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LDPConsoleViewController.xib; sourceTree = "<group>"; };
-		2CA826B92340A4D300E0B1D4 /* LDPConsoleHistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDPConsoleHistoryViewController.h; sourceTree = "<group>"; };
-		2CA826BA2340A4D300E0B1D4 /* LDPConsoleManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDPConsoleManager.h; sourceTree = "<group>"; };
-		2CA826BB2340A4D300E0B1D4 /* LDPConsleDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDPConsleDetailViewController.h; sourceTree = "<group>"; };
-		2CA826BC2340A4D300E0B1D4 /* LDPConsoleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDPConsoleModel.h; sourceTree = "<group>"; };
 		3CCEF9C3D5AE983B5F3E26E8 /* Pods_ConsoleProject.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ConsoleProject.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		513EEA766CA2CB74FD79A81C /* Pods-ConsoleProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConsoleProject.release.xcconfig"; path = "Target Support Files/Pods-ConsoleProject/Pods-ConsoleProject.release.xcconfig"; sourceTree = "<group>"; };
 		73DA23787CD66A03C4D505DA /* Pods-ConsoleProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConsoleProject.debug.xcconfig"; path = "Target Support Files/Pods-ConsoleProject/Pods-ConsoleProject.debug.xcconfig"; sourceTree = "<group>"; };
@@ -97,7 +76,6 @@
 		2CA826952340A48200E0B1D4 /* ConsoleProject */ = {
 			isa = PBXGroup;
 			children = (
-				2CA826AF2340A4D300E0B1D4 /* Console */,
 				2CA826962340A48200E0B1D4 /* AppDelegate.h */,
 				2CA826972340A48200E0B1D4 /* AppDelegate.m */,
 				2CA826992340A48200E0B1D4 /* SceneDelegate.h */,
@@ -111,27 +89,6 @@
 				2CA826A82340A48300E0B1D4 /* main.m */,
 			);
 			path = ConsoleProject;
-			sourceTree = "<group>";
-		};
-		2CA826AF2340A4D300E0B1D4 /* Console */ = {
-			isa = PBXGroup;
-			children = (
-				2CA826BC2340A4D300E0B1D4 /* LDPConsoleModel.h */,
-				2CA826B52340A4D300E0B1D4 /* LDPConsoleModel.m */,
-				2CA826BA2340A4D300E0B1D4 /* LDPConsoleManager.h */,
-				2CA826B12340A4D300E0B1D4 /* LDPConsoleManager.m */,
-				2CA826B02340A4D300E0B1D4 /* LDPConsoleViewController.h */,
-				2CA826B72340A4D300E0B1D4 /* LDPConsoleViewController.m */,
-				2CA826B82340A4D300E0B1D4 /* LDPConsoleViewController.xib */,
-				2CA826B92340A4D300E0B1D4 /* LDPConsoleHistoryViewController.h */,
-				2CA826B22340A4D300E0B1D4 /* LDPConsoleHistoryViewController.m */,
-				2CA826B32340A4D300E0B1D4 /* LDPConsoleHistoryViewController.xib */,
-				2CA826BB2340A4D300E0B1D4 /* LDPConsleDetailViewController.h */,
-				2CA826B62340A4D300E0B1D4 /* LDPConsleDetailViewController.m */,
-				2CA826B42340A4D300E0B1D4 /* LDPConsleDetailViewController.xib */,
-			);
-			name = Console;
-			path = ../../Console;
 			sourceTree = "<group>";
 		};
 		933E6DEC8DB660DD78CBA42F /* Pods */ = {
@@ -202,9 +159,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2CA826BF2340A4D300E0B1D4 /* LDPConsoleHistoryViewController.xib in Resources */,
-				2CA826C42340A4D300E0B1D4 /* LDPConsoleViewController.xib in Resources */,
-				2CA826C02340A4D300E0B1D4 /* LDPConsleDetailViewController.xib in Resources */,
 				2CA826A62340A48300E0B1D4 /* LaunchScreen.storyboard in Resources */,
 				2CA826A32340A48300E0B1D4 /* Assets.xcassets in Resources */,
 				2CA826A12340A48200E0B1D4 /* Main.storyboard in Resources */,
@@ -260,14 +214,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2CA826C32340A4D300E0B1D4 /* LDPConsoleViewController.m in Sources */,
-				2CA826C22340A4D300E0B1D4 /* LDPConsleDetailViewController.m in Sources */,
 				2CA8269E2340A48200E0B1D4 /* ViewController.m in Sources */,
-				2CA826BD2340A4D300E0B1D4 /* LDPConsoleManager.m in Sources */,
 				2CA826982340A48200E0B1D4 /* AppDelegate.m in Sources */,
-				2CA826C12340A4D300E0B1D4 /* LDPConsoleModel.m in Sources */,
 				2CA826A92340A48300E0B1D4 /* main.m in Sources */,
-				2CA826BE2340A4D300E0B1D4 /* LDPConsoleHistoryViewController.m in Sources */,
 				2CA8269B2340A48200E0B1D4 /* SceneDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

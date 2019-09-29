@@ -7,5 +7,6 @@ target 'ConsoleProject' do
 
   # Pods for ConsoleProject
   pod 'fishhook'
+  pod 'YAHConsole', :path => '../'
 
 end
