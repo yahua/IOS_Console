@@ -36,6 +36,7 @@ void redirect_nslog(NSString *format, ...) {
 @interface LDPConsoleViewController ()
 
 @property (weak, nonatomic) IBOutlet UITextView *textView;
+@property (nonatomic, strong) NSMutableArray *showLogs;
 
 @end
 
@@ -95,6 +96,9 @@ void redirect_nslog(NSString *format, ...) {
     self.view.backgroundColor = [UIColor whiteColor];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(logChangeNotification) name:LDPConsoleLogChangeNotification object:nil];
+    
+    _showLogs = [NSMutableArray arrayWithCapacity:1];
+    [self performSelector:@selector(showLog) withObject:nil afterDelay:3.0f];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -112,13 +116,27 @@ void redirect_nslog(NSString *format, ...) {
     if (!self.presentingViewController) {
         return;
     }
-    [self.textView insertText:@"\n"];
-    [self.textView insertText:[LDPConsoleManager shareInstance].logs.lastObject];
+    [self.showLogs addObject:[LDPConsoleManager shareInstance].logs.lastObject];
+}
+
+- (void)showLog {
+    
+    if (self.showLogs.count == 0) {
+        return;
+    }
+    
+    NSString *log = [self.showLogs componentsJoinedByString:@"\n"];
+    BOOL scrollToBottom = NO;
     if (self.textView.contentOffset.y+50 >=
         (self.textView.contentSize.height- self.textView.bounds.size.height)) {
+        scrollToBottom = YES;
+    }
+    [self.textView insertText:log];
+    if (scrollToBottom) {
         [self scrollToBottom:nil];
     }
-    //self.textView.text = [[LDPConsoleManager shareInstance].logs componentsJoinedByString:@"\n"];
+    [self.showLogs removeAllObjects];
+    [self performSelector:@selector(showLog) withObject:nil afterDelay:3.0f];
 }
 
 #pragma mark - Private

@@ -23,7 +23,7 @@
 - (void)log {
     
     NSLog(@"print  log");
-    [self performSelector:@selector(log) withObject:nil afterDelay:1.0f];
+    [self performSelector:@selector(log) withObject:nil afterDelay:0.01];
 }
 
 @end

@@ -24,8 +24,11 @@
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
-        BOOL result = [log writeToFile:self.logFilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
-        NSLog(result?@"log保存成功":@"log保存成功");
+        NSError *error = nil;
+        BOOL result = [log writeToFile:self.logFilePath atomically:YES encoding:NSUTF8StringEncoding error:&error];
+        if (!result && error) {
+            NSLog(@"log保存失败：%@", error);
+        }
     });
 }
 
