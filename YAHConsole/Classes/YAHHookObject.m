@@ -34,11 +34,12 @@ static int (* old_printf)(const char *, ...);
 
 //新的printf函数
 void new_printf(const char * name, ...) {
-    NSString *format = [[NSString alloc] initWithCString:name encoding:NSUTF8StringEncoding];
+    char outbuf[1024*1024];
     va_list vl;
-    va_start(vl, format);
-    NSString* str = [[NSString alloc] initWithFormat:format arguments:vl];
+    va_start(vl, name);
+    vsprintf(outbuf, name, vl);
     va_end(vl);
+    NSString *str = [[NSString alloc] initWithCString:outbuf encoding:NSUTF8StringEncoding];
     old_printf([str UTF8String]);
     
     //可以添加自己的处理，比如输出到自己的持久化存储系统中

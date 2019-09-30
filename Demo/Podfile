@@ -6,6 +6,6 @@ target 'Demo' do
   use_frameworks!
 
   # Pods for Demo
-  pod 'YAHConsole', :path => '../'
+  //pod 'YAHConsole', :path => '../'
 
 end

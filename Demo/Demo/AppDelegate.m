@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import <YAHConsole/LDPConsoleManager.h>
+#import "LDPConsoleManager.h"
 
 @interface AppDelegate ()
 

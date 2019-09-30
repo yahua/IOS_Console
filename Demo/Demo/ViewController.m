@@ -22,9 +22,9 @@
 
  NSInteger sindex = 0;
 - (void)log {
-    
+    NSString *test = @"测试";
     NSLog(@"nslog  %td", sindex);
-    printf("printf %td\n", sindex);
+    printf("printf 我%s\n", [test UTF8String]);
     sindex++;
     [self performSelector:@selector(log) withObject:nil afterDelay:0.1];
 }
