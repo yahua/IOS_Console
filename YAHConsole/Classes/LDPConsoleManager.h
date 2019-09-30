@@ -11,15 +11,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-#define  LDPConsoleLogChangeNotification  @"LDPConsoleLogChangeNotification"
-
 @interface LDPConsoleManager : NSObject
 
 @property (nonatomic, strong) NSMutableArray *logs;
+@property (nonatomic, copy) void(^newLogBlock)(NSString *log);
 
 //是否使用控制台功能   仅在DEBUG环境有效
 + (void)open;
 + (instancetype)shareInstance;
+- (void)cleanCurrentLog;
 
 - (void)addWithLog:(NSString *)log;
 

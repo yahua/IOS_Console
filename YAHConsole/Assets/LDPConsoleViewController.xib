@@ -32,6 +32,20 @@
                         <action selector="scrollToBottom:" destination="-1" eventType="touchUpInside" id="ObZ-ln-leg"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zHH-Aw-ev7">
+                    <rect key="frame" x="207" y="44" width="44" height="44"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="zHH-Aw-ev7" secondAttribute="height" multiplier="1:1" id="Y24-4M-e3a"/>
+                        <constraint firstAttribute="width" constant="44" id="zdF-JE-NXc"/>
+                    </constraints>
+                    <state key="normal" title="清除">
+                        <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="clearAction:" destination="-1" eventType="touchUpInside" id="dp7-4J-xFg"/>
+                        <action selector="scrollToBottom:" destination="-1" eventType="touchUpInside" id="kAL-kC-sYi"/>
+                    </connections>
+                </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UYK-Pp-avf">
                     <rect key="frame" x="15" y="44" width="44" height="44"/>
                     <constraints>
@@ -82,6 +96,7 @@
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstItem="zHH-Aw-ev7" firstAttribute="centerY" secondItem="oLq-fa-csx" secondAttribute="centerY" id="1gI-fH-4uN"/>
                 <constraint firstItem="qTg-IZ-qCd" firstAttribute="centerY" secondItem="UfH-Ov-b89" secondAttribute="centerY" id="85P-qx-FUC"/>
                 <constraint firstItem="UYK-Pp-avf" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="8iA-0G-pga"/>
                 <constraint firstItem="oLq-fa-csx" firstAttribute="leading" secondItem="UfH-Ov-b89" secondAttribute="trailing" constant="20" id="Ap6-Ei-CL2"/>
@@ -92,8 +107,10 @@
                 <constraint firstItem="qTg-IZ-qCd" firstAttribute="width" secondItem="qTg-IZ-qCd" secondAttribute="height" multiplier="1:1" id="WRW-HR-LHf"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="mIe-VT-Eq6" secondAttribute="bottom" id="d6U-1X-aXV"/>
                 <constraint firstItem="UfH-Ov-b89" firstAttribute="centerY" secondItem="UYK-Pp-avf" secondAttribute="centerY" id="g6G-b9-MPC"/>
+                <constraint firstItem="zHH-Aw-ev7" firstAttribute="leading" secondItem="oLq-fa-csx" secondAttribute="trailing" constant="20" id="hUr-RF-a7C"/>
                 <constraint firstItem="mIe-VT-Eq6" firstAttribute="width" secondItem="vUN-kp-3ea" secondAttribute="width" id="nXF-4m-igb"/>
                 <constraint firstItem="oLq-fa-csx" firstAttribute="centerY" secondItem="UfH-Ov-b89" secondAttribute="centerY" id="p1Q-Vi-ycq"/>
+                <constraint firstItem="zHH-Aw-ev7" firstAttribute="width" secondItem="zHH-Aw-ev7" secondAttribute="height" multiplier="1:1" id="rDm-ls-IZS"/>
                 <constraint firstItem="UYK-Pp-avf" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="15" id="wfQ-0J-F0F"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>

@@ -51,6 +51,12 @@
 
 #pragma mark - Public
 
+- (void)cleanCurrentLog {
+    
+    [self.logs removeAllObjects];
+    [self saveLog];
+}
+
 - (void)addWithLog:(NSString *)log {
     
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -60,7 +66,9 @@
         }
 
         [self.logs addObject:log];
-        [[NSNotificationCenter defaultCenter] postNotificationName:LDPConsoleLogChangeNotification object:nil];
+        if (self.newLogBlock) {
+            self.newLogBlock(log);
+        }
         
         //防止频繁调用
         [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(saveLog) object:nil];

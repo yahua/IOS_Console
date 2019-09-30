@@ -9,29 +9,7 @@
 #import "LDPConsoleViewController.h"
 #import "LDPConsoleHistoryViewController.h"
 #import "LDPConsoleManager.h"
-#import <fishhook/fishhook.h>
-
-//申明一个函数指针用于保存原NSLog的真实函数地址
-static void (*orig_nslog)(NSString *format, ...);
- 
-//NSLog重定向
-void redirect_nslog(NSString *format, ...) {
-    
-    va_list vl;
-    va_start(vl, format);
-    NSString* str = [[NSString alloc] initWithFormat:format arguments:vl];
-    va_end(vl);
-    orig_nslog(str);
-    
-    //可以添加自己的处理，比如输出到自己的持久化存储系统中
-    NSDateFormatter *formatter = [NSDateFormatter new];
-    //    formatter.locale = [NSLocale currentLocale]; // Necessary?
-    formatter.dateFormat = @"YYYY-MM-dd hh:mm:ss:SSS";
-    NSString *dateStr = [formatter stringFromDate:[NSDate date]];
-    NSString *log = [NSString stringWithFormat:@"%@ %@\n",dateStr, str];
-    [[LDPConsoleManager shareInstance] addWithLog:log];
-}
-
+#import "YAHHookObject.h"
 
 @interface LDPConsoleViewController ()
 
@@ -68,8 +46,7 @@ void redirect_nslog(NSString *format, ...) {
     if (self) {
         self.modalPresentationStyle = UIModalPresentationFullScreen;
 #ifdef DEBUG
-        struct rebinding nslog_rebinding = {"NSLog",redirect_nslog,(void*)&orig_nslog};
-        rebind_symbols((struct rebinding[1]){nslog_rebinding}, 1);
+        [YAHHookObject hookPrintMethod];
         
         UIButton *consoleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         consoleBtn.frame = CGRectMake([UIScreen mainScreen].bounds.size.width-44-15, [UIScreen mainScreen].bounds.size.height*0.66, 44, 44);
@@ -95,7 +72,13 @@ void redirect_nslog(NSString *format, ...) {
     // Do any additional setup after loading the view from its nib.
     self.view.backgroundColor = [UIColor whiteColor];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(logChangeNotification) name:LDPConsoleLogChangeNotification object:nil];
+    [LDPConsoleManager shareInstance].newLogBlock = ^(NSString * _Nonnull log) {
+        
+        if (!self.presentingViewController) {
+            return;
+        }
+        [self.showLogs addObject:[LDPConsoleManager shareInstance].logs.lastObject];
+    };
     
     _showLogs = [NSMutableArray arrayWithCapacity:1];
     [self performSelector:@selector(showLog) withObject:nil afterDelay:3.0f];
@@ -108,15 +91,6 @@ void redirect_nslog(NSString *format, ...) {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self scrollToBottom:nil];
     });
-}
-
-- (void)logChangeNotification {
-    
-    //self.textView.text = [[LDPConsoleManager shareInstance].logs componentsJoinedByString:@"\n"];
-    if (!self.presentingViewController) {
-        return;
-    }
-    [self.showLogs addObject:[LDPConsoleManager shareInstance].logs.lastObject];
 }
 
 - (void)showLog {
@@ -146,6 +120,14 @@ void redirect_nslog(NSString *format, ...) {
 - (void)enterConsole {
     
     [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:[LDPConsoleViewController shareInstance] animated:YES completion:nil];
+}
+
+- (IBAction)clearAction:(id)sender {
+    
+    [[LDPConsoleManager shareInstance] cleanCurrentLog];
+    
+    [self.showLogs removeAllObjects];
+    self.textView.text = @"";
 }
 
 - (IBAction)closeAction:(id)sender {
