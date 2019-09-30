@@ -11,7 +11,6 @@
 @interface LDPConsleDetailViewController ()
 
 @property (weak, nonatomic) IBOutlet UITextView *textView;
-
 @property (nonatomic, strong) LDPConsoleModel *model;
 
 @end
@@ -20,7 +19,10 @@
 
 - (instancetype)initWithModel:(LDPConsoleModel *)model {
     
-    self = [super init];
+    NSBundle *bundle = [NSBundle bundleForClass:LDPConsleDetailViewController.class];
+    NSURL *url = [bundle URLForResource:@"YAHConsole" withExtension:@"bundle"];
+    bundle = url?[NSBundle bundleWithURL:url]:[NSBundle mainBundle];
+    self = [super initWithNibName:NSStringFromClass(LDPConsleDetailViewController.class) bundle:bundle];
     if (self) {
         self.modalPresentationStyle = UIModalPresentationFullScreen;
         _model = model;

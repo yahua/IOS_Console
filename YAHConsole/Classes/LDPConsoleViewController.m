@@ -53,17 +53,20 @@ void redirect_nslog(NSString *format, ...) {
     static dispatch_once_t onceToken;
     static id instance;
     dispatch_once(&onceToken, ^{
-        instance = [[LDPConsoleViewController alloc] init];
+        NSBundle *bundle = [NSBundle bundleForClass:LDPConsoleViewController.class];
+        NSURL *url = [bundle URLForResource:@"YAHConsole" withExtension:@"bundle"];
+        bundle = url?[NSBundle bundleWithURL:url]:[NSBundle mainBundle];
+        instance = [[LDPConsoleViewController alloc] initWithNibName:NSStringFromClass(LDPConsoleViewController.class) bundle:bundle];
     });
     return instance;
 }
 
-- (instancetype)init
-{
-    self = [super init];
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.modalPresentationStyle = UIModalPresentationFullScreen;
-        #ifdef DEBUG
+#ifdef DEBUG
         struct rebinding nslog_rebinding = {"NSLog",redirect_nslog,(void*)&orig_nslog};
         rebind_symbols((struct rebinding[1]){nslog_rebinding}, 1);
         
@@ -74,14 +77,14 @@ void redirect_nslog(NSString *format, ...) {
         [consoleBtn setTitle:@"Console" forState:UIControlStateNormal];
         [consoleBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         consoleBtn.titleLabel.font = [UIFont systemFontOfSize:10];
-        consoleBtn.backgroundColor = [UIColor systemBlueColor];
+        consoleBtn.backgroundColor = [UIColor blueColor];
         [consoleBtn addTarget:self action:@selector(enterConsole) forControlEvents:UIControlEventTouchUpInside];
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [[UIApplication sharedApplication].keyWindow addSubview:consoleBtn];
         });
         
-        #else
-        #endif
+#else
+#endif
     }
     return self;
 }
@@ -147,7 +150,10 @@ void redirect_nslog(NSString *format, ...) {
 
 - (IBAction)historyAction:(id)sender {
     
-    LDPConsoleHistoryViewController *vc = [LDPConsoleHistoryViewController new];
+    NSBundle *bundle = [NSBundle bundleForClass:LDPConsoleHistoryViewController.class];
+    NSURL *url = [bundle URLForResource:@"YAHConsole" withExtension:@"bundle"];
+    bundle = url?[NSBundle bundleWithURL:url]:[NSBundle mainBundle];
+    LDPConsoleHistoryViewController *vc = [[LDPConsoleHistoryViewController alloc] initWithNibName:NSStringFromClass(LDPConsoleHistoryViewController.class) bundle:bundle];
     [self presentViewController:vc animated:YES completion:nil];
 }
 

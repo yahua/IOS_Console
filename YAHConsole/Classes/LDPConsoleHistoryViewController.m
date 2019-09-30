@@ -22,9 +22,9 @@ UITableViewDataSource>
 
 @implementation LDPConsoleHistoryViewController
 
-- (instancetype)init
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    self = [super init];
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.modalPresentationStyle = UIModalPresentationFullScreen;
         _datas = [LDPConsoleManager shareInstance].historyLogs;

@@ -1,8 +1,8 @@
 //
 //  ViewController.m
-//  ConsoleProject
+//  Demo
 //
-//  Created by yahua on 2019/9/29.
+//  Created by yahua on 2019/9/30.
 //  Copyright © 2019 Landi. All rights reserved.
 //
 
@@ -16,15 +16,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
+    // Do any additional setup after loading the view, typically from a nib.
     [self log];
 }
 
 - (void)log {
     
-    NSLog(@"打印log");
-    [self performSelector:@selector(log) withObject:nil afterDelay:0.5f];
+    NSLog(@"print  log");
+    [self performSelector:@selector(log) withObject:nil afterDelay:1.0f];
 }
 
 @end
