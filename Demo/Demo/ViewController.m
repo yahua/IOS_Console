@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import <YAHBaseKit/YAHBaseKit.h>
 
 @interface ViewController ()
 
@@ -24,9 +25,9 @@
 - (void)log {
     NSString *test = @"测试";
     NSLog(@"nslog  %td", sindex);
-    printf("printf 我%s\n", [test UTF8String]);
+    YAHLog(@"中国");
     sindex++;
-    [self performSelector:@selector(log) withObject:nil afterDelay:0.1];
+    [self performSelector:@selector(log) withObject:nil afterDelay:1];
 }
 
 @end
