@@ -25,7 +25,7 @@ void redirect_nslog(NSString *format, ...) {
     //    formatter.locale = [NSLocale currentLocale]; // Necessary?
     formatter.dateFormat = @"YYYY-MM-dd hh:mm:ss:SSS";
     NSString *dateStr = [formatter stringFromDate:[NSDate date]];
-    NSString *log = [NSString stringWithFormat:@"%@ %@\n",dateStr, str];
+    NSString *log = [NSString stringWithFormat:@"%@ \n %@\n",dateStr, str];
     [[LDPConsoleManager shareInstance] addWithLog:log];
 }
 
@@ -100,13 +100,13 @@ int new___swbuf(int c, FILE *p) {
 + (void)hookPrintMethod {
     
     //nslog
-//    struct rebinding nslog_rebinding = {"NSLog",redirect_nslog,(void*)&orig_nslog};
-//    rebind_symbols((struct rebinding[1]){nslog_rebinding}, 1);
+    struct rebinding nslog_rebinding = {"NSLog",redirect_nslog,(void*)&orig_nslog};
+    rebind_symbols((struct rebinding[1]){nslog_rebinding}, 1);
     
     //rebind_symbols((struct rebinding[1]){{"printf", new_printf, (void *)&orig_printf}}, 1);
     
     //nslog内部调用writev
-    rebind_symbols((struct rebinding[1]){{"writev", new_writev, (void *)&orig_writev}}, 1);
+    //rebind_symbols((struct rebinding[1]){{"writev", new_writev, (void *)&orig_writev}}, 1);
     
     rebind_symbols((struct rebinding[1]){{"__swbuf", new___swbuf, (void *)&orin___swbuf}}, 1);
     rebind_symbols((struct rebinding[1]){{"fwrite", new_fwrite, (void *)&orig_fwrite}}, 1);
