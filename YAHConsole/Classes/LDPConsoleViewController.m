@@ -13,6 +13,8 @@
 
 @interface LDPConsoleViewController ()
 
+@property (nonatomic, strong) UIWindow *window;
+
 @property (weak, nonatomic) IBOutlet UITextView *textView;
 @property (nonatomic, strong) NSMutableArray *showLogs;
 
@@ -119,6 +121,11 @@
 
 - (void)enterConsole {
     
+//    self.window=[[UIWindow alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
+//    self.window.backgroundColor=[UIColor greenColor];
+//    self.window.windowLevel=UIWindowLevelAlert;
+//    self.window.rootViewController = [LDPConsoleViewController shareInstance];
+//    [self.window makeKeyAndVisible];
     [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:[LDPConsoleViewController shareInstance] animated:YES completion:nil];
 }
 

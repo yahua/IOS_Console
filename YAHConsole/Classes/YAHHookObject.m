@@ -29,6 +29,24 @@ void redirect_nslog(NSString *format, ...) {
     [[LDPConsoleManager shareInstance] addWithLog:log];
 }
 
+//函数指针，用来保存原始的函数地址
+static int (* orig_printf)(const char *name, ...);
+
+//新的printf函数
+int new_printf(const char * name, ...) {
+    char outbuf[1024*1024];
+    va_list vl;
+    va_start(vl, name);
+    vsprintf(outbuf, name, vl);
+    va_end(vl);
+    NSString *str = [[NSString alloc] initWithCString:outbuf encoding:NSUTF8StringEncoding];
+    
+    //可以添加自己的处理，比如输出到自己的持久化存储系统中
+    [[LDPConsoleManager shareInstance] addWithLog:str];
+    
+    return orig_printf([str UTF8String]);
+}
+
 //writev
 static ssize_t (*orig_writev)(int a, const struct iovec * v, int v_len);
 ssize_t new_writev(int a, const struct iovec *v, int v_len) {
@@ -82,9 +100,12 @@ int new___swbuf(int c, FILE *p) {
 + (void)hookPrintMethod {
     
     //nslog
-    struct rebinding nslog_rebinding = {"NSLog",redirect_nslog,(void*)&orig_nslog};
-    rebind_symbols((struct rebinding[1]){nslog_rebinding}, 1);
+//    struct rebinding nslog_rebinding = {"NSLog",redirect_nslog,(void*)&orig_nslog};
+//    rebind_symbols((struct rebinding[1]){nslog_rebinding}, 1);
     
+    //rebind_symbols((struct rebinding[1]){{"printf", new_printf, (void *)&orig_printf}}, 1);
+    
+    //nslog内部调用writev
     rebind_symbols((struct rebinding[1]){{"writev", new_writev, (void *)&orig_writev}}, 1);
     
     rebind_symbols((struct rebinding[1]){{"__swbuf", new___swbuf, (void *)&orin___swbuf}}, 1);
