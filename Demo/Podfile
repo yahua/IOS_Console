@@ -9,4 +9,6 @@ target 'Demo' do
   #pod 'YAHConsole', :path => '../'
   pod 'fishhook'
   pod 'YAHBaseKit'
+  pod 'TZImagePickerController', '3.1.7'
+  pod 'FLAnimatedImage'
 end

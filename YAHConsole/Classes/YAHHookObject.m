@@ -18,15 +18,16 @@ void redirect_nslog(NSString *format, ...) {
     va_start(vl, format);
     NSString* str = [[NSString alloc] initWithFormat:format arguments:vl];
     va_end(vl);
-    orig_nslog(str);
-    
-    //可以添加自己的处理，比如输出到自己的持久化存储系统中
+    //orig_nslog(str);
     NSDateFormatter *formatter = [NSDateFormatter new];
     //    formatter.locale = [NSLocale currentLocale]; // Necessary?
     formatter.dateFormat = @"YYYY-MM-dd hh:mm:ss:SSS";
     NSString *dateStr = [formatter stringFromDate:[NSDate date]];
-    NSString *log = [NSString stringWithFormat:@"%@ \n %@\n",dateStr, str];
-    [[LDPConsoleManager shareInstance] addWithLog:log];
+    str = [NSString stringWithFormat:@"%@ %@", dateStr, str];
+    printf("%s\n", [str UTF8String]);
+    
+    //可以添加自己的处理，比如输出到自己的持久化存储系统中
+    [[LDPConsoleManager shareInstance] addWithLog:str];
 }
 
 //函数指针，用来保存原始的函数地址
