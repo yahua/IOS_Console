@@ -113,13 +113,21 @@
 - (void)setupNotitication {
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willResignActiveNotification:) name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willTerminateNotification:) name:UIApplicationWillTerminateNotification object:nil];
+    
 }
 
 - (void)removeNotification {
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)willResignActiveNotification:(NSNotification *)notification {
+    
+    [self saveLog];
+}
+
+- (void)willTerminateNotification:(NSNotification *)notification {
     
     [self saveLog];
 }
