@@ -47,7 +47,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.modalPresentationStyle = UIModalPresentationFullScreen;
-#ifdef DEBUG
+//#ifdef DEBUG
         [YAHHookObject hookPrintMethod];
         
         UIButton *consoleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -63,8 +63,8 @@
             [[UIApplication sharedApplication].keyWindow addSubview:consoleBtn];
         });
         
-#else
-#endif
+//#else
+//#endif
     }
     return self;
 }

@@ -21,9 +21,9 @@
 
 + (void)open {
     
-    #ifdef DEBUG
+    //#ifdef DEBUG
         [LDPConsoleViewController shareInstance];
-    #endif
+    //#endif
 }
 
 + (instancetype)shareInstance {
