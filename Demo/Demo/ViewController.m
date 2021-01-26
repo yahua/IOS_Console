@@ -24,9 +24,9 @@
  NSInteger sindex = 0;
 - (void)log {
     NSString *test = @"测试";
-    NSLog(@"nslog  %@", self);
+    //NSLog(@"nslog  %@", self);
     NSLog(@"nslog  %td", sindex);
-    YAHLog(@"中国");
+    //YAHLog(@"中国");
     sindex++;
     [self performSelector:@selector(log) withObject:nil afterDelay:1];
 }

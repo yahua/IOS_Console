@@ -25,9 +25,6 @@ void redirect_nslog(NSString *format, ...) {
     NSString *dateStr = [formatter stringFromDate:[NSDate date]];
     str = [NSString stringWithFormat:@"%@ %@", dateStr, str];
     printf("%s\n", [str UTF8String]);
-    
-    //可以添加自己的处理，比如输出到自己的持久化存储系统中
-    [[LDPConsoleManager shareInstance] addWithLog:str];
 }
 
 //函数指针，用来保存原始的函数地址
@@ -104,7 +101,8 @@ int new___swbuf(int c, FILE *p) {
     struct rebinding nslog_rebinding = {"NSLog",redirect_nslog,(void*)&orig_nslog};
     rebind_symbols((struct rebinding[1]){nslog_rebinding}, 1);
     
-    //rebind_symbols((struct rebinding[1]){{"printf", new_printf, (void *)&orig_printf}}, 1);
+    //nslog、printf
+    rebind_symbols((struct rebinding[1]){{"printf", new_printf, (void *)&orig_printf}}, 1);
     
     //nslog内部调用writev
     //rebind_symbols((struct rebinding[1]){{"writev", new_writev, (void *)&orig_writev}}, 1);
