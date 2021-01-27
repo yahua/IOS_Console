@@ -33,7 +33,7 @@
     static dispatch_once_t onceToken;
     static id instance;
     dispatch_once(&onceToken, ^{
-        instance = [[LDPConsoleViewController alloc] init];
+        instance = [[LDPConsoleViewController alloc] initWithFloatButton];
     });
     return instance;
 }
@@ -46,27 +46,29 @@
     return [self initWithNibName:NSStringFromClass(LDPConsoleViewController.class) bundle:bundle];
 }
 
+- (instancetype)initWithFloatButton {
+    
+    self = [self init];
+    UIButton *consoleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    consoleBtn.frame = CGRectMake([UIScreen mainScreen].bounds.size.width-44-15, [UIScreen mainScreen].bounds.size.height*0.66, 44, 44);
+    consoleBtn.layer.cornerRadius = 22;
+    consoleBtn.layer.masksToBounds = YES;
+    [consoleBtn setTitle:@"Console" forState:UIControlStateNormal];
+    [consoleBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    consoleBtn.titleLabel.font = [UIFont systemFontOfSize:10];
+    consoleBtn.backgroundColor = [UIColor blueColor];
+    [consoleBtn addTarget:self action:@selector(enterConsole) forControlEvents:UIControlEventTouchUpInside];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [[UIApplication sharedApplication].keyWindow addSubview:consoleBtn];
+    });
+    return self;
+}
+
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.modalPresentationStyle = UIModalPresentationFullScreen;
-        
-        UIButton *consoleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        consoleBtn.frame = CGRectMake([UIScreen mainScreen].bounds.size.width-44-15, [UIScreen mainScreen].bounds.size.height*0.66, 44, 44);
-        consoleBtn.layer.cornerRadius = 22;
-        consoleBtn.layer.masksToBounds = YES;
-        [consoleBtn setTitle:@"Console" forState:UIControlStateNormal];
-        [consoleBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        consoleBtn.titleLabel.font = [UIFont systemFontOfSize:10];
-        consoleBtn.backgroundColor = [UIColor blueColor];
-        [consoleBtn addTarget:self action:@selector(enterConsole) forControlEvents:UIControlEventTouchUpInside];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [[UIApplication sharedApplication].keyWindow addSubview:consoleBtn];
-        });
-        
-//#else
-//#endif
     }
     return self;
 }
