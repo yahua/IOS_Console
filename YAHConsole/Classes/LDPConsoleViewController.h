@@ -12,7 +12,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface LDPConsoleViewController : UIViewController
 
+//提供一个悬浮按钮，进入日志查询页面
 + (instancetype)shareInstance;
+
++ (void)show;
 
 @end
 

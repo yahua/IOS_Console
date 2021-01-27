@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "LDPConsoleManager.h"
+#import "LDPConsoleViewController.h"
 
 @interface AppDelegate ()
 
@@ -19,6 +20,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     [LDPConsoleManager open];
+    [LDPConsoleViewController shareInstance];
     return YES;
 }
 

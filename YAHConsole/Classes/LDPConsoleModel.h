@@ -19,6 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)readLogWithBlock:(void(^)(NSString *log))block;
 
+- (NSString *)logFilePath;
+
 @end
 
 @interface LDPConsoleModel (Date)

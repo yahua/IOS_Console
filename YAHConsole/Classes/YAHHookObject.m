@@ -18,17 +18,23 @@ void redirect_nslog(NSString *format, ...) {
     va_start(vl, format);
     NSString* str = [[NSString alloc] initWithFormat:format arguments:vl];
     va_end(vl);
-    //orig_nslog(str);
-    NSDateFormatter *formatter = [NSDateFormatter new];
-    //    formatter.locale = [NSLocale currentLocale]; // Necessary?
-    formatter.dateFormat = @"YYYY-MM-dd hh:mm:ss:SSS";
+    static NSDateFormatter *formatter = nil;
+    if (!formatter) {
+        formatter = [NSDateFormatter new];
+        formatter.dateFormat = @"YYYY-MM-dd hh:mm:ss:SSS";
+    }
     NSString *dateStr = [formatter stringFromDate:[NSDate date]];
     str = [NSString stringWithFormat:@"%@ %@", dateStr, str];
+#ifdef DEBUG
     printf("%s\n", [str UTF8String]);
+    [[LDPConsoleManager shareInstance] addWithLog:str];
+#else
+    [[LDPConsoleManager shareInstance] addWithLog:str];
+#endif
 }
 
 //函数指针，用来保存原始的函数地址
-static int (* orig_printf)(const char *name, ...);
+static int (*orig_printf)(const char * __restrict, ...);
 
 //新的printf函数
 int new_printf(const char * name, ...) {
@@ -42,7 +48,11 @@ int new_printf(const char * name, ...) {
     //可以添加自己的处理，比如输出到自己的持久化存储系统中
     [[LDPConsoleManager shareInstance] addWithLog:str];
     
+#ifdef DEBUG
     return orig_printf([str UTF8String]);
+#else
+    return 1;
+#endif
 }
 
 //writev
@@ -102,13 +112,13 @@ int new___swbuf(int c, FILE *p) {
     rebind_symbols((struct rebinding[1]){nslog_rebinding}, 1);
     
     //nslog、printf
-    rebind_symbols((struct rebinding[1]){{"printf", new_printf, (void *)&orig_printf}}, 1);
-    
-    //nslog内部调用writev
-    //rebind_symbols((struct rebinding[1]){{"writev", new_writev, (void *)&orig_writev}}, 1);
-    
-    rebind_symbols((struct rebinding[1]){{"__swbuf", new___swbuf, (void *)&orin___swbuf}}, 1);
-    rebind_symbols((struct rebinding[1]){{"fwrite", new_fwrite, (void *)&orig_fwrite}}, 1);
+//    rebind_symbols((struct rebinding[1]){{"printf", new_printf, (void *)&orig_printf}}, 1);
+//    
+//    //nslog内部调用writev
+//    //rebind_symbols((struct rebinding[1]){{"writev", new_writev, (void *)&orig_writev}}, 1);
+//    
+//    rebind_symbols((struct rebinding[1]){{"__swbuf", new___swbuf, (void *)&orin___swbuf}}, 1);
+//    rebind_symbols((struct rebinding[1]){{"fwrite", new_fwrite, (void *)&orig_fwrite}}, 1);
 }
 
 @end

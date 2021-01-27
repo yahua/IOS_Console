@@ -7,23 +7,23 @@
 //
 
 #import "LDPConsoleManager.h"
-#import "LDPConsoleViewController.h"
+#import "YAHHookObject.h"
+#import <UIKit/UIKit.h>
 
 #define kLogKey @"kLogKey"
 
 @interface LDPConsoleManager ()
 
 @property (nonatomic, strong) LDPConsoleModel *logModel;
+@property (nonatomic,strong) dispatch_queue_t serialQueue;
+@property (nonatomic, strong) NSMutableArray *callbacks;
 
 @end
 
 @implementation LDPConsoleManager
 
 + (void)open {
-    
-    //#ifdef DEBUG
-        [LDPConsoleViewController shareInstance];
-    //#endif
+    [YAHHookObject hookPrintMethod];
 }
 
 + (instancetype)shareInstance {
@@ -42,8 +42,10 @@
     if (self) {
         _logs = [NSMutableArray array];
         _logModel = [[LDPConsoleModel alloc] init];
-        [self saveLogModel];
+        _callbacks = [NSMutableArray arrayWithCapacity:1];
+        self.serialQueue = dispatch_queue_create("yahua.gcd.console.serial_queue",DISPATCH_QUEUE_SERIAL);
         
+        [self saveLogModel];
         [self setupNotitication];
     }
     return self;
@@ -57,23 +59,37 @@
     [self saveLog];
 }
 
+- (void)addLogMonitorCallBack:(DPConsoleLogCallBackBlock)callback {
+    
+    if (!callback) {
+        return;
+    }
+    [_callbacks addObject:callback];
+}
+
 - (void)addWithLog:(NSString *)log {
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        
-        if (!log || log.length==0) {
-            return;
-        }
-
+    if (!log || log.length==0) {
+        return;
+    }
+    
+    if ([NSThread isMainThread]) {
         [self.logs addObject:log];
-        if (self.newLogBlock) {
-            self.newLogBlock(log);
+        for (DPConsoleLogCallBackBlock block in self.callbacks) {
+            block(log);
         }
-        
-        //防止频繁调用
-        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(saveLog) object:nil];
-        [self performSelector:@selector(saveLog) withObject:nil afterDelay:5];
-    });
+    }else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.logs addObject:log];
+            for (DPConsoleLogCallBackBlock block in self.callbacks) {
+                block(log);
+            }
+            
+    //        //防止频繁调用
+    //        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(saveLog) object:nil];
+    //        [self performSelector:@selector(saveLog) withObject:nil afterDelay:5];
+        });
+    }
 }
 
 - (NSArray<NSArray<LDPConsoleModel *> *> *)historyLogs {
@@ -112,7 +128,7 @@
 
 - (void)setupNotitication {
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willResignActiveNotification:) name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEnterBackgroundNotification:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willTerminateNotification:) name:UIApplicationWillTerminateNotification object:nil];
     
 }
@@ -122,7 +138,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)willResignActiveNotification:(NSNotification *)notification {
+- (void)didEnterBackgroundNotification:(NSNotification *)notification {
     
     [self saveLog];
 }
@@ -136,7 +152,7 @@
 
 - (void)saveLogModel {
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    dispatch_async(self.serialQueue, ^{
         NSDictionary *dict = @{@"date":self.logModel.createDate,
                                @"logFileName":self.logModel.logFileName};
         NSArray *cacheList = [[NSUserDefaults standardUserDefaults] arrayForKey:kLogKey];

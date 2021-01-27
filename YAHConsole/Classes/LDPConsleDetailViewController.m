@@ -13,6 +13,8 @@
 @property (weak, nonatomic) IBOutlet UITextView *textView;
 @property (nonatomic, strong) LDPConsoleModel *model;
 
+@property (nonatomic,strong) UIDocumentInteractionController *document;
+
 @end
 
 @implementation LDPConsleDetailViewController
@@ -56,4 +58,14 @@
     }
     [self.textView setContentOffset:CGPointMake(0, y) animated:YES];
 }
+
+- (IBAction)exportAction:(id)sender {
+    
+    _document = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:[self.model logFilePath]]];
+    BOOL canOpen =  [self.document presentOpenInMenuFromRect:self.view.bounds inView:self.view animated:YES];
+    if(!canOpen) {
+        NSLog(@"沒有程序可以打开选中的文件");
+     }
+}
+
 @end

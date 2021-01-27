@@ -11,18 +11,26 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void (^DPConsoleLogCallBackBlock)(NSString *log);
+
 @interface LDPConsoleManager : NSObject
 
 @property (nonatomic, strong) NSMutableArray *logs;
-@property (nonatomic, copy) void(^newLogBlock)(NSString *log);
 
-//是否使用控制台功能   仅在DEBUG环境有效
+//是否开启log监听
 + (void)open;
 + (instancetype)shareInstance;
+
+- (void)addLogMonitorCallBack:(DPConsoleLogCallBackBlock)callback;
+
+/// 清除当前所有log
 - (void)cleanCurrentLog;
 
+/// 添加新log
+/// @param log log
 - (void)addWithLog:(NSString *)log;
 
+/// 历史log数据
 - (NSArray<NSArray<LDPConsoleModel *> *> *)historyLogs;
 
 @end

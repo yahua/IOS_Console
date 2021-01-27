@@ -9,7 +9,6 @@
 #import "LDPConsoleViewController.h"
 #import "LDPConsoleHistoryViewController.h"
 #import "LDPConsoleManager.h"
-#import "YAHHookObject.h"
 
 @interface LDPConsoleViewController ()
 
@@ -34,12 +33,17 @@
     static dispatch_once_t onceToken;
     static id instance;
     dispatch_once(&onceToken, ^{
-        NSBundle *bundle = [NSBundle bundleForClass:LDPConsoleViewController.class];
-        NSURL *url = [bundle URLForResource:@"YAHConsole" withExtension:@"bundle"];
-        bundle = url?[NSBundle bundleWithURL:url]:[NSBundle mainBundle];
-        instance = [[LDPConsoleViewController alloc] initWithNibName:NSStringFromClass(LDPConsoleViewController.class) bundle:bundle];
+        instance = [[LDPConsoleViewController alloc] init];
     });
     return instance;
+}
+
+- (instancetype)init
+{
+    NSBundle *bundle = [NSBundle bundleForClass:LDPConsoleViewController.class];
+    NSURL *url = [bundle URLForResource:@"YAHConsole" withExtension:@"bundle"];
+    bundle = url?[NSBundle bundleWithURL:url]:[NSBundle mainBundle];
+    return [self initWithNibName:NSStringFromClass(LDPConsoleViewController.class) bundle:bundle];
 }
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -47,8 +51,6 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.modalPresentationStyle = UIModalPresentationFullScreen;
-//#ifdef DEBUG
-        [YAHHookObject hookPrintMethod];
         
         UIButton *consoleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         consoleBtn.frame = CGRectMake([UIScreen mainScreen].bounds.size.width-44-15, [UIScreen mainScreen].bounds.size.height*0.66, 44, 44);
@@ -74,16 +76,15 @@
     // Do any additional setup after loading the view from its nib.
     self.view.backgroundColor = [UIColor whiteColor];
     
-    [LDPConsoleManager shareInstance].newLogBlock = ^(NSString * _Nonnull log) {
-        
-        if (!self.presentingViewController) {
+    __weak typeof(self) weakSelf  = self;
+    [[LDPConsoleManager shareInstance] addLogMonitorCallBack:^(NSString * _Nonnull log) {
+        if (!weakSelf.presentingViewController) {
             return;
         }
-        [self.showLogs addObject:[LDPConsoleManager shareInstance].logs.lastObject];
-    };
+        [weakSelf.showLogs addObject:[LDPConsoleManager shareInstance].logs.lastObject];
+    }];
     
     _showLogs = [NSMutableArray arrayWithCapacity:1];
-    [self performSelector:@selector(showLog) withObject:nil afterDelay:3.0f];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -93,6 +94,14 @@
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self scrollToBottom:nil];
     });
+    
+    [self performSelector:@selector(showLog) withObject:nil afterDelay:3.0f];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    
+    [super viewWillDisappear:animated];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(showLog) object:nil];
 }
 
 - (void)showLog {
@@ -109,10 +118,19 @@
     }
     [self.textView insertText:log];
     if (scrollToBottom) {
-        [self scrollToBottom:nil];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self scrollToBottom:nil];
+        });
     }
     [self.showLogs removeAllObjects];
     [self performSelector:@selector(showLog) withObject:nil afterDelay:3.0f];
+}
+
+#pragma mark - Public
+
++ (void)show {
+    
+    [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:[LDPConsoleViewController new] animated:YES completion:nil];
 }
 
 #pragma mark - Private
@@ -121,11 +139,6 @@
 
 - (void)enterConsole {
     
-//    self.window=[[UIWindow alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
-//    self.window.backgroundColor=[UIColor greenColor];
-//    self.window.windowLevel=UIWindowLevelAlert;
-//    self.window.rootViewController = [LDPConsoleViewController shareInstance];
-//    [self.window makeKeyAndVisible];
     [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:[LDPConsoleViewController shareInstance] animated:YES completion:nil];
 }
 
@@ -150,6 +163,7 @@
     
     CGFloat y = self.textView.contentSize.height- self.textView.bounds.size.height;
     if (y<0) {
+        y = 0;
         return;
     }
     [self.textView setContentOffset:CGPointMake(0, y) animated:YES];
