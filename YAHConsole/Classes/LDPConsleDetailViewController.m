@@ -48,7 +48,7 @@
 }
 - (IBAction)scrollToTop:(id)sender {
     
-    [self.textView setContentOffset:CGPointMake(0, 0) animated:YES];
+    [self.textView setContentOffset:CGPointMake(0, 0) animated:NO];
 }
 - (IBAction)scrollToBottom:(id)sender {
     
@@ -56,7 +56,7 @@
     if (y<0) {
         return;
     }
-    [self.textView setContentOffset:CGPointMake(0, y) animated:YES];
+    [self.textView setContentOffset:CGPointMake(0, y) animated:NO];
 }
 
 - (IBAction)exportAction:(id)sender {
@@ -65,7 +65,7 @@
     BOOL canOpen =  [self.document presentOpenInMenuFromRect:self.view.bounds inView:self.view animated:YES];
     if(!canOpen) {
         NSLog(@"沒有程序可以打开选中的文件");
-     }
+    }
 }
 
 @end

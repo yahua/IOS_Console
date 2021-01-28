@@ -11,6 +11,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LDPConsoleHistoryViewController">
             <connections>
                 <outlet property="tableView" destination="D7n-wK-8I4" id="U3u-zx-QfZ"/>
+                <outlet property="totalSizeLabel" destination="ysW-v3-JA9" id="DWS-nl-aNw"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -48,17 +49,28 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ysW-v3-JA9">
+                    <rect key="frame" x="399" y="44" width="0.0" height="44"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="xAT-47-Gfz"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <viewLayoutGuide key="safeArea" id="Q5M-cg-NOt"/>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="Zos-OU-GSA" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="15" id="3Ja-w8-1ka"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="ysW-v3-JA9" secondAttribute="trailing" constant="15" id="5X9-MD-5Xf"/>
                 <constraint firstItem="Zos-OU-GSA" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" id="6vl-4i-Tok"/>
                 <constraint firstItem="c9m-VP-FrT" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" id="F1F-YA-PT7"/>
                 <constraint firstItem="c9m-VP-FrT" firstAttribute="centerX" secondItem="Q5M-cg-NOt" secondAttribute="centerX" id="G2X-xf-W3f"/>
                 <constraint firstItem="D7n-wK-8I4" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" id="TNU-qS-Tmd"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="D7n-wK-8I4" secondAttribute="bottom" id="XOU-9z-ZIb"/>
                 <constraint firstItem="D7n-wK-8I4" firstAttribute="top" secondItem="Zos-OU-GSA" secondAttribute="bottom" id="ZT7-ur-iyA"/>
+                <constraint firstItem="ysW-v3-JA9" firstAttribute="centerY" secondItem="c9m-VP-FrT" secondAttribute="centerY" id="qmU-dy-hQd"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="D7n-wK-8I4" secondAttribute="trailing" id="zxL-b9-0fC"/>
             </constraints>
             <point key="canvasLocation" x="132" y="153"/>

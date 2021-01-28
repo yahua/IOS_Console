@@ -15,6 +15,7 @@ typedef void (^DPConsoleLogCallBackBlock)(NSString *log);
 
 @interface LDPConsoleManager : NSObject
 
+@property (nonatomic, strong, readonly) dispatch_queue_t serialQueue;
 @property (nonatomic, strong) NSMutableArray *logs;
 
 //是否开启log监听
@@ -30,8 +31,12 @@ typedef void (^DPConsoleLogCallBackBlock)(NSString *log);
 /// @param log log
 - (void)addWithLog:(NSString *)log;
 
-/// 历史log数据
-- (NSArray<NSArray<LDPConsoleModel *> *> *)historyLogs;
+/// 保存log
+- (void)saveLog;
+
+/// 获取历史log
+/// @param block 完成回调
+- (void)getHistoryLog:(void(^)(NSArray<NSArray<LDPConsoleModel *> *> *historyLogs))block;
 
 @end
 

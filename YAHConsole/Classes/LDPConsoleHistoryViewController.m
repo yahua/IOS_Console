@@ -15,6 +15,7 @@ UITableViewDelegate,
 UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UILabel *totalSizeLabel;
 
 @property (nonatomic, strong) NSArray<NSArray<LDPConsoleModel *> *> *datas;
 
@@ -27,7 +28,6 @@ UITableViewDataSource>
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.modalPresentationStyle = UIModalPresentationFullScreen;
-        _datas = [LDPConsoleManager shareInstance].historyLogs;
     }
     return self;
 }
@@ -35,6 +35,19 @@ UITableViewDataSource>
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    __weak __typeof(self)weakSelf = self;
+    [[LDPConsoleManager shareInstance] getHistoryLog:^(NSArray<NSArray<LDPConsoleModel *> *> * _Nonnull historyLogs) {
+        weakSelf.datas = historyLogs;
+        [self.tableView reloadData];
+        
+        unsigned long long total = 0;
+        for (NSArray<LDPConsoleModel *> *array in historyLogs) {
+            for (LDPConsoleModel *model in array) {
+                total += model.logSizeByte;
+            }
+        }
+        self.totalSizeLabel.text = [NSString stringWithFormat:@"总缓存:%.2fMB", total*1.0/1024/1024];
+    }];
 }
 
 - (IBAction)closeButton:(id)sender {
@@ -65,9 +78,10 @@ UITableViewDataSource>
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
     }
     cell.textLabel.text = [[self.datas[indexPath.section] objectAtIndex:indexPath.row] modelDetailDate];
+    cell.detailTextLabel.text = [[self.datas[indexPath.section] objectAtIndex:indexPath.row] logSizeString];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     

@@ -21,7 +21,7 @@ void redirect_nslog(NSString *format, ...) {
     static NSDateFormatter *formatter = nil;
     if (!formatter) {
         formatter = [NSDateFormatter new];
-        formatter.dateFormat = @"YYYY-MM-dd hh:mm:ss:SSS";
+        formatter.dateFormat = @"YYYY-MM-dd HH:mm:ss:SSS";
     }
     NSString *dateStr = [formatter stringFromDate:[NSDate date]];
     str = [NSString stringWithFormat:@"%@ %@", dateStr, str];

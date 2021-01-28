@@ -7,6 +7,7 @@
 //
 
 #import "LDPConsoleModel.h"
+#import "LDPConsoleManager.h"
 
 @implementation LDPConsoleModel
 
@@ -22,7 +23,7 @@
 
 - (void)saveLog:(NSString *)log {
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    dispatch_async([LDPConsoleManager shareInstance].serialQueue, ^{
         
         NSError *error = nil;
         BOOL result = [log writeToFile:self.logFilePath atomically:YES encoding:NSUTF8StringEncoding error:&error];
@@ -34,7 +35,7 @@
 
 - (void)readLogWithBlock:(void(^)(NSString *log))block {
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    dispatch_async([LDPConsoleManager shareInstance].serialQueue, ^{
         NSData *data = [[NSData alloc] initWithContentsOfFile:self.logFilePath];
         NSString *readStr =[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -43,6 +44,23 @@
             }
         });
     });
+}
+
+- (BOOL)hasLog {
+    
+    return [self logSizeByte] > 0;
+}
+
+- (unsigned long long)logSizeByte {
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSDictionary *fileAttributes = [fileManager fileAttributesAtPath:[self logFilePath] traverseLink:YES];
+    return [[fileAttributes objectForKey:NSFileSize] unsignedLongLongValue];
+}
+
+- (NSString *)logSizeString {
+    
+    return [NSString stringWithFormat:@"%.2fMB", [self logSizeByte]*1.0/1024/1024];
 }
 
 #pragma mark - Private

@@ -159,7 +159,7 @@
 
 - (IBAction)scrollToTop:(id)sender {
     
-    [self.textView setContentOffset:CGPointMake(0, 0) animated:YES];
+    [self.textView setContentOffset:CGPointMake(0, 0) animated:NO];
 }
 - (IBAction)scrollToBottom:(id)sender {
     
@@ -168,10 +168,12 @@
         y = 0;
         return;
     }
-    [self.textView setContentOffset:CGPointMake(0, y) animated:YES];
+    [self.textView setContentOffset:CGPointMake(0, y) animated:NO];
 }
 
 - (IBAction)historyAction:(id)sender {
+    
+    [[LDPConsoleManager shareInstance] saveLog];
     
     NSBundle *bundle = [NSBundle bundleForClass:LDPConsoleHistoryViewController.class];
     NSURL *url = [bundle URLForResource:@"YAHConsole" withExtension:@"bundle"];
@@ -179,6 +181,5 @@
     LDPConsoleHistoryViewController *vc = [[LDPConsoleHistoryViewController alloc] initWithNibName:NSStringFromClass(LDPConsoleHistoryViewController.class) bundle:bundle];
     [self presentViewController:vc animated:YES completion:nil];
 }
-
 
 @end

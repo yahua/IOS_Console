@@ -21,6 +21,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSString *)logFilePath;
 
+/// 是否有log
+- (BOOL)hasLog;
+- (unsigned long long)logSizeByte;
+- (NSString *)logSizeString;
+
 @end
 
 @interface LDPConsoleModel (Date)
