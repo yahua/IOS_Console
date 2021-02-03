@@ -96,6 +96,4 @@ Pod::Spec.new do |s|
     'YAHConsole' => ['YAHConsole/Assets/*']
   }
 
-  s.dependency "fishhook"
-
 end

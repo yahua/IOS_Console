@@ -154,6 +154,7 @@ UITextFieldDelegate>
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     
     [self search];
+    return YES;
 }
 
 - (void)search {

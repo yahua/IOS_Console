@@ -7,7 +7,6 @@ target 'Demo' do
 
   # Pods for Demo
   #pod 'YAHConsole', :path => '../'
-  pod 'fishhook', '0.2'
   #pod 'YAHBaseKit'
   #pod 'YAHBaseKit', :git => 'https://github.com/yahua/YAHBaseKit.git', :branch => 'Landi'
   pod 'YAHBaseKit', :path => '/Users/wangsw/YAHBaseKit'

@@ -7,7 +7,7 @@
 
 #import "YAHHookObject.h"
 #import "LDPConsoleManager.h"
-#import <fishhook/fishhook.h>
+#import "ldp_fishhook.h"
 
 //申明一个函数指针用于保存原NSLog的真实函数地址
 static void (*orig_nslog)(NSString *format, ...);
@@ -108,8 +108,8 @@ int new___swbuf(int c, FILE *p) {
 + (void)hookPrintMethod {
     
     //nslog
-    struct rebinding nslog_rebinding = {"NSLog",redirect_nslog,(void*)&orig_nslog};
-    rebind_symbols((struct rebinding[1]){nslog_rebinding}, 1);
+    struct ldp_rebinding nslog_rebinding = {"NSLog",redirect_nslog,(void*)&orig_nslog};
+    ldp_rebind_symbols((struct ldp_rebinding[1]){nslog_rebinding}, 1);
     
     //nslog、printf
 //    rebind_symbols((struct rebinding[1]){{"printf", new_printf, (void *)&orig_printf}}, 1);
