@@ -10,12 +10,16 @@
 #import "LDPConsoleHistoryViewController.h"
 #import "LDPConsoleManager.h"
 
-@interface LDPConsoleViewController ()
+@interface LDPConsoleViewController ()<
+UITextFieldDelegate>
 
-@property (nonatomic, strong) UIWindow *window;
+@property (weak, nonatomic) IBOutlet UITextField *searchTextField;
 
 @property (weak, nonatomic) IBOutlet UITextView *textView;
 @property (nonatomic, strong) NSMutableArray *showLogs;
+
+@property (nonatomic, strong) NSMutableArray<NSValue *> *searchRangList;
+@property (nonatomic, assign) NSInteger rangeIndex;
 
 @end
 
@@ -135,9 +139,65 @@
     [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:[LDPConsoleViewController new] animated:YES completion:nil];
 }
 
-#pragma mark - Private
+#pragma mark - Getter
+
+- (NSMutableArray<NSValue *> *)searchRangList {
+    
+    if (!_searchRangList) {
+        _searchRangList = [NSMutableArray arrayWithCapacity:1];
+    }
+    return _searchRangList;
+}
+
+#pragma mark - Delegate
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    
+    [self search];
+}
+
+- (void)search {
+    
+    [self.searchRangList removeAllObjects];
+    self.rangeIndex = 0;
+    
+    [self.textView.textStorage addAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor],NSBackgroundColorAttributeName:[UIColor clearColor]} range:NSMakeRange(0, self.textView.text.length)];
+    NSString *content = self.textView.text;
+           NSInteger iLocation = 0;
+           while (true) {
+               NSRange r = [content rangeOfString:self.searchTextField.text options:NSRegularExpressionSearch range:NSMakeRange(iLocation, content.length-iLocation)];
+               if (r.location == NSNotFound) {
+                   break;
+               }
+               [self.textView.textStorage addAttributes:@{NSForegroundColorAttributeName:[UIColor redColor],NSBackgroundColorAttributeName:[UIColor grayColor]} range:r];
+               iLocation = r.location+r.length;
+               [self.searchRangList addObject:[NSValue valueWithRange:r]];
+           }
+    [self locationSearchRange];
+}
+
+- (void)locationSearchRange {
+    
+    if (self.rangeIndex < self.searchRangList.count) {
+        [self.textView scrollRangeToVisible:[self.searchRangList[self.rangeIndex] rangeValue]];
+        [self.textView.textStorage addAttributes:@{NSBackgroundColorAttributeName:[UIColor yellowColor]} range:[self.searchRangList[self.rangeIndex] rangeValue]];
+    }
+}
 
 #pragma mark - Action
+
+- (IBAction)nextAction:(id)sender {
+    
+    if (self.searchRangList.count == 0) {
+        return;
+    }
+    
+    self.rangeIndex += 1;
+    if (self.rangeIndex >= self.searchRangList.count) {
+        self.rangeIndex = 0;
+    }
+    [self locationSearchRange];
+}
 
 - (void)enterConsole {
     
