@@ -46,7 +46,6 @@ static const NSInteger kDefaultCacheMaxCacheAge = 60*60*24*7; // 1 week
     self = [super init];
     if (self) {
         _logs = [NSMutableArray array];
-        _logModel = [[LDPConsoleModel alloc] init];
         _callbacks = [NSMutableArray arrayWithCapacity:1];
         self.serialQueue = dispatch_queue_create("yahua.gcd.console.serial_queue",DISPATCH_QUEUE_SERIAL);
         
@@ -55,7 +54,7 @@ static const NSInteger kDefaultCacheMaxCacheAge = 60*60*24*7; // 1 week
         //清除过期的缓存文件
         [self p_trimRecurrence];
         
-        //缓存本次log
+        //创建logmodel
         [self saveLogModel];
     }
     return self;
@@ -124,6 +123,7 @@ static const NSInteger kDefaultCacheMaxCacheAge = 60*60*24*7; // 1 week
         LDPConsoleModel *model = [LDPConsoleModel new];
         model.createDate = [obj objectForKey:@"date"];
         model.logFileName = [obj objectForKey:@"logFileName"];
+        model.force = [[obj objectForKey:@"force"] boolValue];
         NSString *key = [model modelDate];
         NSMutableArray *tmpList = [dicts objectForKey:key];
         if (!tmpList) {
@@ -185,6 +185,7 @@ static const NSInteger kDefaultCacheMaxCacheAge = 60*60*24*7; // 1 week
 
 - (void)saveLogModel {
     
+    _logModel = [[LDPConsoleModel alloc] init];
     dispatch_async(self.serialQueue, ^{
         NSDictionary *dict = @{@"date":self.logModel.createDate,
                                @"logFileName":self.logModel.logFileName};
@@ -199,6 +200,25 @@ static const NSInteger kDefaultCacheMaxCacheAge = 60*60*24*7; // 1 week
     
     NSString *log = [self.logs componentsJoinedByString:@"\n"];
     [_logModel saveLog:log];
+}
+
+- (void)forceSaveLog {
+    
+    dispatch_async(self.serialQueue, ^{
+        //NSDictionary *dict = @{@"date":self.logModel.createDate,
+        NSArray *cacheList = [[NSUserDefaults standardUserDefaults] arrayForKey:kLogKey];
+        NSMutableArray *tmpList = [NSMutableArray arrayWithArray:cacheList];
+        if (tmpList.count==0) {
+            return;
+        }
+        NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:tmpList.lastObject];
+        [dict setObject:@(YES) forKey:@"force"];
+        [tmpList replaceObjectAtIndex:tmpList.count-1 withObject:[dict copy]];
+        [[NSUserDefaults standardUserDefaults] setObject:[tmpList copy] forKey:kLogKey];
+    });
+    [self saveLog];
+    //创建新的logmodel
+    [self saveLogModel];
 }
 
 - (void)p_trimRecurrence {  //循环调用

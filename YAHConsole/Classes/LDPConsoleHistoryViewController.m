@@ -80,8 +80,11 @@ UITableViewDataSource>
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
     }
-    cell.textLabel.text = [[self.datas[indexPath.section] objectAtIndex:indexPath.row] modelDetailDate];
-    cell.detailTextLabel.text = [[self.datas[indexPath.section] objectAtIndex:indexPath.row] logSizeString];
+    
+    LDPConsoleModel *model = [self.datas[indexPath.section] objectAtIndex:indexPath.row];
+    cell.textLabel.textColor = model.force?[UIColor redColor]:[UIColor blackColor];
+    cell.textLabel.text = [model modelDetailDate];
+    cell.detailTextLabel.text = [model logSizeString];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     

@@ -34,6 +34,9 @@ typedef void (^DPConsoleLogCallBackBlock)(NSString *log);
 /// 保存log
 - (void)saveLog;
 
+/// 强制保存log， log文件标红
+- (void)forceSaveLog;
+
 /// 获取历史log
 /// @param block 完成回调
 - (void)getHistoryLog:(void(^)(NSArray<NSArray<LDPConsoleModel *> *> *historyLogs))block;

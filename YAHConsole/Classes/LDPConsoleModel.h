@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSDate *createDate;
 @property (nonatomic, copy) NSString *logFileName;
+@property (nonatomic, assign) BOOL force; //是否是强制保存的log
 
 - (void)saveLog:(NSString *)log;
 
